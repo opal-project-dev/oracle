@@ -1,0 +1,39 @@
+log:
+  disable_sentry: true
+
+listener:
+  addr: :8000 # TODO configure and rm this TODO
+
+cop:
+  disabled: true
+  endpoint: "http://..."
+  upstream: "http://..."
+  service_name: chainlink-price-feed
+  service_port: 80
+
+chains:
+   source_network: rpc url
+   destination_network: rpc url
+   gas_limit: 150000
+
+pairs:
+   data:
+     - source: chainlink
+       external_address: source network contract address
+       internal_address: destination network contract address
+     - source: coinmarketcap
+       api_private_key: your personal api_private_key
+       currency_id: slug of currency (can get it as last part of endpoint on coinmarketcap.com)
+       conversion_currency: currency for conversion
+       internal_address: destination network contract address
+     - source: coingecko
+       currency_id: currency id
+       conversion_currency: currency for conversion
+       internal_address: destination network contract address
+
+wallet:
+   address:
+   private_key:
+
+runner:
+    interval: "1m"
