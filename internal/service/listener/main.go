@@ -31,7 +31,7 @@ func NewListener(cfg config.Config, p config.Pairs) source.Source {
 			CurrencyId:         p.CurrencyId,
 			ConversionCurrency: p.ConversionCurrency,
 			InternalAddress:    p.InternalAddress,
-			RoundID:            getCurrentRound(cfg.ChainsInfo().DestClient, p.ExternalAddress),
+			RoundID:            getCurrentRound(cfg.ChainsInfo().DestClient, p.InternalAddress),
 		}
 	case types.Coingecko:
 		return &coingecko.Coingecko{
@@ -39,7 +39,7 @@ func NewListener(cfg config.Config, p config.Pairs) source.Source {
 			CurrencyId:         p.CurrencyId,
 			ConversionCurrency: p.ConversionCurrency,
 			InternalAddress:    p.InternalAddress,
-			RoundID:            getCurrentRound(cfg.ChainsInfo().DestClient, p.ExternalAddress),
+			RoundID:            getCurrentRound(cfg.ChainsInfo().DestClient, p.InternalAddress),
 		}
 	default:
 		panic("unknown source")
@@ -54,7 +54,7 @@ func getCurrentRound(client *ethclient.Client, address common.Address) *big.Int 
 
 	roundData, err := contr.LatestRoundData(&bind.CallOpts{})
 	if err != nil {
-		return big.NewInt(1)
+		return big.NewInt(0)
 	}
 
 	return roundData.RoundId
